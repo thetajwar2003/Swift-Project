@@ -56,7 +56,7 @@ struct ContentView: View {
                 
                 // section for total bill
                 Section(header: Text("Total Bill Cost")){
-                    Text("$\(total, specifier: "%.2f")")
+                    Text("$\(total, specifier: "%.2f")").foregroundColor(tipPercentages[tipPercentage] == 0 ? .red : .black)
                 }
                 
                 //section for amount per person

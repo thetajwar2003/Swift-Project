@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// a struct that renders images of each flag
 struct FlagImage: View {
     var name: String
     
@@ -27,6 +28,9 @@ struct ContentView: View {
     @State private var scoreTitle = ""
     @State private var score = 0
     @State private var message = ""
+    @State private var opacityAmount = 1.0
+    @State private var rotationAmount = 0.0
+    @State private var correct = false
     var body: some View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
@@ -40,7 +44,9 @@ struct ContentView: View {
                         self.flagTapped(number)
                     }){
                         FlagImage(name: self.countries[number])
+                            .opacity(self.correct && number == self.correctAns ? self.opacityAmount : 0.25) // opacity
                     }
+                    .rotation3DEffect(.degrees(number == self.correctAns ? self.rotationAmount : 0.0), axis: (x: 0, y: 1, z: 0))
                 }
                 Text("Score: \(score)").foregroundColor(.white).font(.largeTitle).fontWeight(.black)
                 Spacer()
@@ -56,17 +62,25 @@ struct ContentView: View {
             scoreTitle = "Correct"
             message = "That's correct! Keep it up!"
             score += 1
+            correct = true
+            withAnimation(.interpolatingSpring(stiffness: 5, damping: 1)){
+                rotationAmount = 360
+            }
         }
         else{
             scoreTitle = "Incorrect"
             message = "Wrong! That's the flag of \(countries[number])"
             score -= 1
+            rotationAmount = 0
+            correct = false
         }
         showingScore = true
     }
     func askQuestion(){
         countries.shuffle()
         correctAns = Int.random(in: 0...2)
+        rotationAmount = 0.0
+        correct = false
     }
 }
 

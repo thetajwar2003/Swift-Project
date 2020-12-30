@@ -37,6 +37,22 @@ class Expenses: ObservableObject {
     }
 }
 
+struct amountStyle: ViewModifier {
+    var amount: Int
+    
+    func body(content: Content) -> some View {
+        if amount <= 10 {
+            return content.foregroundColor(.purple)
+        }
+        else if amount <= 100 {
+            return content.foregroundColor(.blue)
+        }
+        else {
+            return content.foregroundColor(.red)
+        }
+    }
+}
+
 struct ContentView: View {
     @ObservedObject var expenses = Expenses()
     @State private var showingAddExpense = false
@@ -50,14 +66,14 @@ struct ContentView: View {
                             Text(item.type)
                         }
                         Spacer()
-                        Text("$\(item.amount)")
+                        Text("$\(item.amount)").modifier(amountStyle(amount: item.amount))
                     }
                 }
             .onDelete(perform: removeItems)
             }
             .navigationBarTitle("iExpense")
-            .navigationBarItems(trailing:
-                Button(action: {
+            .navigationBarItems(leading: EditButton(),
+                trailing: Button(action: {
                     self.showingAddExpense = true
                 }) {
                     Image(systemName: "plus")

@@ -26,7 +26,7 @@ class Habit: ObservableObject {
             }
         }
     }
-    
+    // an initializer that decodes the users habits
     init() {
         if let items = UserDefaults.standard.data(forKey: "Habits"){
             let decoder = JSONDecoder()
@@ -44,14 +44,18 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
+                // lists out each habit, the description, and number of times completed
                 ForEach(habits.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name).font(.headline)
-                            Text(item.desc)
+                    // each habit is like a button that takes the user to the habitview screen
+                    NavigationLink(destination: HabitView(habits: self.habits, selected: item)){
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(item.name).font(.headline)
+                                Text(item.desc)
+                            }
+                            Spacer()
+                            Text(item.completion == 1 ? "\(item.completion) time" : "\(item.completion) times")
                         }
-                        Spacer()
-                        Text("\(item.completion) times")
                     }
                 }.onDelete(perform: removeHabits)
             }
@@ -67,6 +71,7 @@ struct ContentView: View {
             }
         }
     }
+    // allows the user to get rid of whatever habits they want
     func removeHabits(at offsets: IndexSet) {
         habits.items.remove(atOffsets: offsets)
     }

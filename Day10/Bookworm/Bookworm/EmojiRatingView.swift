@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// emojis in the main screen reflecting the rating of the book
 struct EmojiRatingView: View {
     let rating: Int16
     var body: some View {

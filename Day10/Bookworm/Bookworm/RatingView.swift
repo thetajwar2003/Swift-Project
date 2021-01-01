@@ -20,6 +20,7 @@ struct RatingView: View {
     var offColor = Color.gray
     var onColor = Color.yellow
     
+    // shows a row of stars and depending on rating they are filled in or not
     var body: some View {
         HStack {
             if label.isEmpty == false {

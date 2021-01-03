@@ -14,25 +14,24 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    Picker("Select your cupcake type", selection: $order.orderInfo.type) {
-                        ForEach(0..<OrderInfo.types.count) {
+                    Picker("Select your cake type", selection: $order.orderInfo.type) {
+                        ForEach(0..<OrderInfo.types.count, id: \.self) {
                             Text(OrderInfo.types[$0])
                         }
                     }
-                    Stepper(value: $order.orderInfo.quantity, in: 3...20){
-                        Text("Number of cupcakes: \(order.quantity)")
+                    Stepper(value: $order.orderInfo.quantity, in: 3...20) {
+                        Text("Number of cakes: \(order.orderInfo.quantity)")
                     }
                 }
                 Section {
-                    Toggle(isOn: $order.$orderInfo.specialRequest.animation()) {
+                    Toggle(isOn: $order.orderInfo.specialRequestEnabled.animation()) {
                         Text("Any special requests?")
                     }
-                        
-                    if order.orderInfo.specialRequest {
-                        Toggle(isOn: $order.$orderInfo.extraFrosting) {
-                            Text("Add extra Frosting")
+                    if order.orderInfo.specialRequestEnabled {
+                        Toggle(isOn: $order.orderInfo.extraFrosting) {
+                            Text("Add extra frosting")
                         }
-                        Toggle(isOn: $order.$orderInfo.addSprinkles) {
+                        Toggle(isOn: $order.orderInfo.addSprinkles) {
                             Text("Add extra sprinkles")
                         }
                     }
@@ -42,7 +41,8 @@ struct ContentView: View {
                         Text("Delivery details")
                     }
                 }
-            }.navigationBarTitle("CupCakeCorner")
+            }
+            .navigationBarTitle("Cupcake Corner")
         }
     }
 }

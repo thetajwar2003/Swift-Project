@@ -26,7 +26,7 @@ struct ContentView: View {
                     Text("Enter desired amount of sleep").font(.headline)
                     Stepper(value: $sleepAmount, in: 4...12, step: 0.25){
                         Text("\(sleepAmount, specifier: "%g") hours")
-                    }
+                    }.accessibility(value: Text("\(sleepAmount) hours of sleep"))
                 }
                 
 

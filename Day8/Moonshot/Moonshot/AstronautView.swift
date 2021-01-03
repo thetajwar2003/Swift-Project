@@ -33,6 +33,7 @@ struct AstronautView: View {
                                 .frame(width: 50, height: 50)
                             Text(mission.displayName)
                                 .font(.headline)
+                                .accessibilityElement(children: .combine)
                         }
                     }.padding(.horizontal)
                 }

@@ -8,6 +8,7 @@
 
 import CoreData
 import SwiftUI
+import CoreLocation
 
 struct AddPersonView: View {
     @Environment(\.managedObjectContext) var moc

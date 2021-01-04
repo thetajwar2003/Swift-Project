@@ -17,6 +17,8 @@
 		6855CDE325A2789E009124E8 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855CDE225A2789E009124E8 /* ImagePicker.swift */; };
 		6855CDE525A289FB009124E8 /* AddPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855CDE425A289FB009124E8 /* AddPersonView.swift */; };
 		6855CDE725A29509009124E8 /* PersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855CDE625A29509009124E8 /* PersonView.swift */; };
+		6855CDE925A29B0D009124E8 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855CDE825A29B0D009124E8 /* MapView.swift */; };
+		6855CDEB25A29B36009124E8 /* CompactMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6855CDEA25A29B36009124E8 /* CompactMapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		6855CDE225A2789E009124E8 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		6855CDE425A289FB009124E8 /* AddPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPersonView.swift; sourceTree = "<group>"; };
 		6855CDE625A29509009124E8 /* PersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonView.swift; sourceTree = "<group>"; };
+		6855CDE825A29B0D009124E8 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		6855CDEA25A29B36009124E8 /* CompactMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactMapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,8 @@
 				6855CDE225A2789E009124E8 /* ImagePicker.swift */,
 				6855CDE425A289FB009124E8 /* AddPersonView.swift */,
 				6855CDE625A29509009124E8 /* PersonView.swift */,
+				6855CDE825A29B0D009124E8 /* MapView.swift */,
+				6855CDEA25A29B36009124E8 /* CompactMapView.swift */,
 				6855CDCB25A27883009124E8 /* AppDelegate.swift */,
 				6855CDCD25A27883009124E8 /* SceneDelegate.swift */,
 				6855CDD225A27883009124E8 /* ContentView.swift */,
@@ -159,11 +165,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6855CDCC25A27883009124E8 /* AppDelegate.swift in Sources */,
+				6855CDE925A29B0D009124E8 /* MapView.swift in Sources */,
 				6855CDD125A27883009124E8 /* Remember_Em.xcdatamodeld in Sources */,
 				6855CDE325A2789E009124E8 /* ImagePicker.swift in Sources */,
 				6855CDD325A27883009124E8 /* ContentView.swift in Sources */,
 				6855CDCE25A27883009124E8 /* SceneDelegate.swift in Sources */,
 				6855CDE525A289FB009124E8 /* AddPersonView.swift in Sources */,
+				6855CDEB25A29B36009124E8 /* CompactMapView.swift in Sources */,
 				6855CDE725A29509009124E8 /* PersonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,12 +8,17 @@
 
 import SwiftUI
 import CoreData
+import CoreLocation
+import MapKit
 
 struct PersonView: View {
     @Environment(\.managedObjectContext) var moc
+    
     @State var imageId: UUID
     @State var person: Person
     @State private var image: Image?
+    
+    @State var currentUserLocation: CLLocationCoordinate2D?
     
     var body: some View {
         VStack {
@@ -27,7 +32,13 @@ struct PersonView: View {
                     .clipShape(Circle())
                     .frame(width: 120, height: 120)
             }
+            
             Text("\(person.name ?? "Unknown Person")")
+            
+            Group {
+                CompactMapView(currentUserLocation: currentUserLocation ?? CLLocationCoordinate2D(latitude: 51.5, longitude: 0.13))
+            }
+            
         }.navigationBarTitle("Detailed View", displayMode: .inline)
     }
     // func to access the doc directory and return first doc

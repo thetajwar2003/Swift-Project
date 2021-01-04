@@ -6,19 +6,42 @@
 //  Copyright © 2021 Tajwar Rahman. All rights reserved.
 //
 
+import CoreData
 import SwiftUI
+import CoreLocation
+
+class LocationFetcher: NSObject, CLLocationManagerDelegate {
+    let manager = CLLocationManager()
+    var lastKnownLocation: CLLocationCoordinate2D?
+
+    override init() {
+        super.init()
+        manager.delegate = self
+    }
+
+    func start() {
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        lastKnownLocation = locations.first?.coordinate
+    }
+}
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(entity: Person.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Person.name, ascending: true)]) var people: FetchedResults<Person>
     @State private var showAddScreen = false
     
+    let locationFetcher = LocationFetcher()
+    @State private var currentLocation: CLLocationCoordinate2D?
     
     var body: some View {
         NavigationView {
             List {
                 ForEach(people, id: \.self) { person in
-                    NavigationLink(destination: PersonView(imageId: person.imageId!, person: person).environment(\.managedObjectContext, self.moc) ){
+                    NavigationLink(destination: PersonView(imageId: person.imageId!, person: person, currentUserLocation: self.currentLocation).environment(\.managedObjectContext, self.moc) ){
                         HStack {
                             self.loadImage(uuid: person.imageId!)
                                 .resizable()
@@ -30,6 +53,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .onAppear(perform: getLocation) // starts the get location when the screen is loaded
             .navigationBarTitle("Remember Em")
             .navigationBarItems(trailing: Button(action: {
                 self.showAddScreen.toggle()
@@ -41,6 +65,11 @@ struct ContentView: View {
         }
     }
     
+    func getLocation() {
+        self.locationFetcher.start()
+        self.currentLocation = self.locationFetcher.lastKnownLocation
+    }
+
     // func to access the doc directory and return first doc
     func getDocumentsDirectory() -> URL {
        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)

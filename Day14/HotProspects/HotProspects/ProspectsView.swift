@@ -14,9 +14,15 @@ struct ProspectsView: View {
     enum  FilterType {
         case none, contacted, uncontacted
     }
-
+    
+    enum Sort {
+        case name, recent
+    }
+    
     @EnvironmentObject var prospects: Prospects
     @State private var isShowingScanner = false
+    @State private var isSorting = false
+    @State private var sort : Sort = .name
     
     let filter: FilterType
     
@@ -32,13 +38,15 @@ struct ProspectsView: View {
     }
     
     var filteredProspects: [Prospect] {
+        let filterOrder = sort == .name ? prospects.people.sorted { $0.name < $1.name } : prospects.people.sorted { $0.added > $1.added }
+        
         switch filter {
-           case .none:
-            return prospects.people
-           case .contacted:
-               return prospects.people.filter { $0.isContacted }
-           case .uncontacted:
-               return prospects.people.filter { !$0.isContacted }
+            case .none:
+                return filterOrder
+            case .contacted:
+                return filterOrder.filter { $0.isContacted }
+            case .uncontacted:
+                return filterOrder.filter { !$0.isContacted }
         }
     }
     
@@ -46,11 +54,15 @@ struct ProspectsView: View {
         NavigationView {
             List {
                 ForEach(filteredProspects) { prospect in
-                    VStack(alignment: .leading) {
-                        Text(prospect.name)
-                            .font(.headline)
-                        Text(prospect.email)
-                            .foregroundColor(.secondary)
+                    HStack{
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            Text(prospect.email)
+                                .foregroundColor(.secondary)
+                        }
+                        Spacer()
+                        Image(systemName: prospect.isContacted ? "checkmark.circle.fill" : "checkmark.circle")
                     }
                     .contextMenu {
                         Button(prospect.isContacted ? "Mark Uncontacted" : "Mark Contacted") {
@@ -74,6 +86,13 @@ struct ProspectsView: View {
             })
             .sheet(isPresented: $isShowingScanner) {
                 CodeScannerView(codeTypes: [.qr], simulatedData: "PaulHudson\npaul@hudsonswift.com", completion: self.handleScan)
+            }
+            .actionSheet(isPresented: $isSorting) { () -> ActionSheet in
+                ActionSheet(title: Text("Sort Contacts"), message: Text("Select sorting style"), buttons: [
+                    .default(Text("Sort by name")) { self.sort = .name },
+                    .default(Text("Sort by recency")) { self.sort = .recent },
+                    .cancel()
+                ])
             }
         }
     }

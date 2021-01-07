@@ -30,6 +30,24 @@ struct ContentView: View {
                     HStack {
                         Image(systemName: "\(word.count).circle")
                         Text(word)
+                        
+                        GeometryReader { fullView in
+                            ScrollView(.vertical) {
+                                ForEach(0..<self.usedWords.count - 1) { index in
+                                    GeometryReader { geo in
+                                        HStack {
+                                            Image(systemName: "\(self.usedWords[index].count).circle")
+                                            Text("\(self.usedWords[index])")
+                                                .font(.title)
+                                        }
+                                        .frame(width: fullView.size.width, alignment: Alignment.leading)
+                                        .offset(x: (geo.frame(in: .global).midY / (fullView.size.height / 50)),
+                                                y: 0)
+                                    }
+                                    .frame(height: 40)
+                                }
+                            }
+                        }
                     }
                     .accessibilityElement(children: .ignore)
                     .accessibility(label: Text("\(word), \(word.count) letters"))

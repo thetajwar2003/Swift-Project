@@ -9,33 +9,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var username = "" // change to userdefault.username ?? ""
-    @State private var password = "" // change to userdefault.password ?? ""
-    
-    @State private var showingSignUp = false
-    
+    @ObservedObject var items = Items()
+    @State private var screen = 0
+    @ObservedObject var cart = Cart()
     var body: some View {
-        NavigationView {
-            VStack (alignment: .center) {
-                TextField("Username", text: $username)
-                TextField("Password", text: $password)
-            
-                
-                Button("Sign Up") {
-                    self.showingSignUp.toggle()
-                }
-                NavigationLink(destination: Text("temp")) {
-                    Text("Login")
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(Color.blue.opacity(0.75))
-                        .clipShape(Capsule())
-                }
+        Group {
+            if screen == 0 {
+                LoginView(screen: $screen)
             }
-            .sheet(isPresented: $showingSignUp) {
-                SignUp()
+            if screen == 1{
+                SignUpView(screen: $screen)
+            }
+            if screen == 2{
+                ItemView(screen: $screen)
+            }
+            if screen == 3{
+                CartView(screen: $screen)
             }
         }
+        .environmentObject(items)
+        .environmentObject(cart)
     }
 }
 
